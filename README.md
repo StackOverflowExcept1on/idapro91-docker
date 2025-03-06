@@ -15,6 +15,14 @@ IDA Pro 9.0 Docker Image that can be used in batch mode (without GUI). You can r
 docker build --tag stackoverflowexcept1on/idapro .
 ```
 
+### Installing
+
+If you don't want to build anything, pre-built docker image is available:
+
+```bash
+docker pull stackoverflowexcept1on/idapro
+```
+
 ### Running
 
 ```bash
