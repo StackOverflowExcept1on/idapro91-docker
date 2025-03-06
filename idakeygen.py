@@ -3,6 +3,7 @@
 import json
 import hashlib
 import os
+import platform
  
 license = {
     "header": {"version": 1},
@@ -12,29 +13,17 @@ license = {
         "licenses": [
             {
                 "id": "48-2137-ACAB-99",
+                "edition_id": "ida-pro",
+                "description": "license",
                 "license_type": "named",
                 "product": "IDA",
+                "product_id": "IDAPRO",
                 "seats": 1,
                 "start_date": "2024-08-10 00:00:00",
-                "end_date": "2033-12-31 23:59:59",  # This can't be more than 10 years!
+                "end_date": "2033-12-31 23:59:59",
                 "issued_on": "2024-08-10 00:00:00",
                 "owner": "HexRays",
-                "add_ons": [
-                    # {
-                    #     "id": "48-1337-0000-01",
-                    #     "code": "HEXX86L",
-                    #     "owner": "48-0000-0000-00",
-                    #     "start_date": "2024-08-10 00:00:00",
-                    #     "end_date": "2033-12-31 23:59:59",
-                    # },
-                    # {
-                    #     "id": "48-1337-0000-02",
-                    #     "code": "HEXX64L",
-                    #     "owner": "48-0000-0000-00",
-                    #     "start_date": "2024-08-10 00:00:00",
-                    #     "end_date": "2033-12-31 23:59:59",
-                    # },
-                ],
+                "add_ons": [],
                 "features": [],
             }
         ],
@@ -59,19 +48,6 @@ def add_every_addon(license):
         "HEXRV64",
         "HEXARC",
         "HEXARC64",
-        # Probably cloud?
-        # "HEXCX86",
-        # "HEXCX64",
-        # "HEXCARM",
-        # "HEXCARM64",
-        # "HEXCMIPS",
-        # "HEXCMIPS64",
-        # "HEXCPPC",
-        # "HEXCPPC64",
-        # "HEXCRV",
-        # "HEXCRV64",
-        # "HEXCARC",
-        # "HEXCARC64",
     ]
  
     i = 0
@@ -86,19 +62,7 @@ def add_every_addon(license):
                 "end_date": "2033-12-31 23:59:59",
             }
         )
-    # for addon in addons:
-    #     for platform in platforms:
-    #         i += 1
-    #         license["payload"]["licenses"][0]["add_ons"].append(
-    #             {
-    #                 "id": f"48-1337-0000-{i:02}",
-    #                 "code": addon + platform,
-    #                 "owner": license["payload"]["licenses"][0]["id"],
-    #                 "start_date": "2024-08-10 00:00:00",
-    #                 "end_date": "2033-12-31 23:59:59",
-    #             }
-    #         )
- 
+    
 add_every_addon(license)
  
 def json_stringify_alphabetical(obj):
@@ -163,51 +127,47 @@ def sign_hexlic(payload: dict) -> str:
  
     return encrypted.hex().upper()
  
-def generate_patched_dll(filename):
+def patch(filename):
     if not os.path.exists(filename):
-        print(f"Didn't find {filename}, skipping patch generation")
+        print(f"Skip: {filename} - didn't find")
         return
  
     with open(filename, "rb") as f:
         data = f.read()
  
         if data.find(bytes.fromhex("EDFD42CBF978")) != -1:
-            print(f"{filename} looks to be already patched :)")
+            print(f"Patch: {filename} - looks to be already patched :)")
             return
  
         if data.find(bytes.fromhex("EDFD425CF978")) == -1:
-            print(f"{filename} doesn't contain the original modulus.")
+            print(f"Patch: {filename} - doesn't contain the original modulus.")
             return
  
         data = data.replace(
             bytes.fromhex("EDFD425CF978"), bytes.fromhex("EDFD42CBF978")
         )
- 
-        patched_filename = f"{filename}.patched"
-        with open(patched_filename, "wb") as f:
-            f.write(data)
- 
-        print(f"Generated modulus patch to {patched_filename}! To apply the patch, replace the original file with the patched file")
- 
-# message = bytes.fromhex(license["signature"])
-# print(decrypt(message).hex())
-# print(encrypt(decrypt(message)).hex())
+     
+    with open(filename, "wb") as f:
+        f.write(data)
+
+    print(f"Patch: {filename} - OK")
  
 license["signature"] = sign_hexlic(license["payload"])
- 
 serialized = json_stringify_alphabetical(license)
  
-# write to ida.hexlic
-filename = "ida.hexlic"
- 
+filename = "idapro.hexlic"
 with open(filename, "w") as f:
     f.write(serialized)
  
-print(f"Saved new license to {filename}!")
+print(f"\nSaved new license to {filename}!\n")
  
-generate_patched_dll("ida.dll")
-generate_patched_dll("ida64.dll")
-generate_patched_dll("libida.so")
-generate_patched_dll("libida64.so")
-generate_patched_dll("libida.dylib")
-generate_patched_dll("libida64.dylib")
+os_name = platform.system().lower()
+if os_name == 'windows':
+    patch("ida.dll")
+    patch("ida32.dll")
+elif os_name == 'linux':
+    patch("libida.so")
+    patch("libida32.so")
+elif os_name == 'darwin':
+    patch("libida.dylib")
+    patch("libida32.dylib")

@@ -7,7 +7,7 @@ IDA Pro 9.0 Docker Image that can be used in batch mode (without GUI). You can r
 
 ### Requirements
 
-- `idapro_90_x64linux.run` file, which can be downloaded from release page
+- `ida-pro_90_x64linux.run` file, which can be downloaded from release page
 
 ### Building
 
