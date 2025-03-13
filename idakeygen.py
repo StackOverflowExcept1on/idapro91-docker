@@ -18,6 +18,7 @@ license = {
                 "license_type": "named",
                 "product": "IDA",
                 "product_id": "IDAPRO",
+                "product_version": "9.1",
                 "seats": 1,
                 "start_date": "2024-08-10 00:00:00",
                 "end_date": "2033-12-31 23:59:59",
