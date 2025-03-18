@@ -12,7 +12,17 @@ IDA Pro 9.1 Docker Image that can be used in batch mode (without GUI). You can r
 ### Building
 
 ```bash
-docker build --platform=linux/amd64 --tag stackoverflowexcept1on/idapro .
+docker build \
+    --build-arg MODE=cli \
+    --platform linux/amd64 \
+    --tag stackoverflowexcept1on/idapro .
+```
+
+```bash
+docker build \
+    --build-arg MODE=x11 \
+    --platform linux/amd64 \
+    --tag stackoverflowexcept1on/idapro .
 ```
 
 ### Installing
@@ -20,7 +30,9 @@ docker build --platform=linux/amd64 --tag stackoverflowexcept1on/idapro .
 If you don't want to build anything, pre-built docker image is available:
 
 ```bash
-docker pull --platform=linux/amd64 stackoverflowexcept1on/idapro
+docker pull \
+    --platform linux/amd64 \
+    stackoverflowexcept1on/idapro
 ```
 
 ### Running
@@ -28,6 +40,36 @@ docker pull --platform=linux/amd64 stackoverflowexcept1on/idapro
 ```bash
 mkdir -p demo && cd demo
 cp /bin/cat .
-docker run --platform=linux/amd64 --rm -it -v $(pwd):/files stackoverflowexcept1on/idapro -P+ -B /files/cat
+docker run \
+    --hostname hostname \
+    --interactive \
+    --name container \
+    --platform linux/amd64 \
+    --rm \
+    --tty \
+    --volume $(pwd):/files \
+    stackoverflowexcept1on/idapro \
+        -B \
+        -P+ \
+        /files/cat
+ls cat.i64
+```
+
+```bash
+mkdir -p demo && cd demo
+cp /bin/cat .
+xhost +local:docker
+docker run \
+    --hostname hostname \
+    --interactive \
+    --env DISPLAY=$DISPLAY \
+    --name container \
+    --platform linux/amd64 \
+    --rm \
+    --tty \
+    --volume $(pwd):/files \
+    --volume /tmp/.X11-unix:/tmp/.X11-unix \
+    stackoverflowexcept1on/idapro \
+        /files/cat
 ls cat.i64
 ```
