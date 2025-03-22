@@ -55,6 +55,7 @@ int main() {
     reg_int_op_fptr("AutoCheckUpdates", true, 0, nullptr);
     reg_int_op_fptr("AutoUseLumina", true, 0, nullptr);
     reg_int_op_fptr("InformedAboutUpdates3", true, 1, nullptr);
+    reg_int_op_fptr("The decompiler assumes that the segment   s  is read only because of its  s  All data references to ", true, 1, "Hidden Messages");
 
     return EXIT_SUCCESS;
 }
