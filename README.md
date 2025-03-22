@@ -3,7 +3,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/stackoverflowexcept1on/idapro)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
 [![Docker Image](https://img.shields.io/badge/docker_image-1.01GB-blue)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
 
-IDA Pro 9.1 Docker Image that can be used in batch mode (without GUI). You can run IDA Pro on a Linux server at night and get `database.i64` the next day.
+IDA Pro 9.1 Docker Image that can be used both in batch mode (without GUI) and with X11 forwarding. You can run IDA Pro on a Linux server at night and get `database.i64` the next day.
 
 ### Requirements
 
