@@ -15,14 +15,14 @@ IDA Pro 9.1 Docker Image that can be used both in batch mode (without GUI) and w
 docker build \
     --build-arg MODE=cli \
     --platform linux/amd64 \
-    --tag stackoverflowexcept1on/idapro .
+    --tag stackoverflowexcept1on/idapro:cli .
 ```
 
 ```bash
 docker build \
     --build-arg MODE=x11 \
     --platform linux/amd64 \
-    --tag stackoverflowexcept1on/idapro .
+    --tag stackoverflowexcept1on/idapro:x11 .
 ```
 
 ### Installing
@@ -32,7 +32,13 @@ If you don't want to build anything, pre-built docker image is available:
 ```bash
 docker pull \
     --platform linux/amd64 \
-    stackoverflowexcept1on/idapro
+    stackoverflowexcept1on/idapro:cli
+```
+
+```bash
+docker pull \
+    --platform linux/amd64 \
+    stackoverflowexcept1on/idapro:x11
 ```
 
 ### Running
@@ -48,7 +54,7 @@ docker run \
     --rm \
     --tty \
     --volume $(pwd):/files \
-    stackoverflowexcept1on/idapro \
+    stackoverflowexcept1on/idapro:cli \
         -B \
         -P+ \
         /files/cat
@@ -69,7 +75,7 @@ docker run \
     --tty \
     --volume $(pwd):/files \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
-    stackoverflowexcept1on/idapro \
+    stackoverflowexcept1on/idapro:x11 \
         /files/cat
 ls cat.i64
 ```
