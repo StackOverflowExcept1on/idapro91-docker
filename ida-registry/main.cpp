@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <dlfcn.h>
 
 template<class T>
@@ -30,16 +31,14 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    dlerror();
-
     auto reg_write_strlist_fptr = reinterpret_cast<decltype(&reg_write_strlist)>(dlsym(handle, "reg_write_strlist"));
     auto reg_str_set_fptr = reinterpret_cast<decltype(&reg_str_set)>(dlsym(handle, "reg_str_set"));
     auto reg_int_op_fptr = reinterpret_cast<decltype(&reg_int_op)>(dlsym(handle, "reg_int_op"));
 
     qstring str;
-    str.body.array = "{\"licsrc\":{\"path\":\"/opt/ida-pro-9.1/idapro.hexlic\"},\"lid\":\"48-2137-ACAB-99\"}\0";
-    str.body.n = 77;
-    str.body.alloc = 77;
+    str.body.array = "{\"licsrc\":{\"path\":\"/opt/ida-pro-9.1/idapro.hexlic\"},\"lid\":\"48-2137-ACAB-99\"}";
+    str.body.n = strlen(str.body.array) + sizeof(const char);
+    str.body.alloc = strlen(str.body.array) + sizeof(const char);
 
     qstrvec_t vec;
     vec.array = &str;
