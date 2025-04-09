@@ -1,7 +1,8 @@
 ### idapro91-docker
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/stackoverflowexcept1on/idapro)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
-[![Docker Image](https://img.shields.io/badge/docker_image-1.01GB-blue)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
+[![Docker Image CLI](https://img.shields.io/badge/docker_image_(cli)-941MB-blue)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
+[![Docker Image X11](https://img.shields.io/badge/docker_image_(x11)-1.17GB-blue)](https://hub.docker.com/r/stackoverflowexcept1on/idapro)
 
 IDA Pro 9.1 Docker Image that can be used both in batch mode (without GUI) and with X11 forwarding. You can run IDA Pro on a Linux server at night and get `database.i64` the next day.
 

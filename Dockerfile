@@ -2,7 +2,7 @@ FROM ubuntu:24.04 AS builder
 RUN apt update && \
     apt install --no-install-recommends --yes \
         python3 \
-        python3-dev && \
+        libpython3.12t64 && \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/ida-pro-9.1
 COPY . /opt/ida-pro-9.1
@@ -11,7 +11,7 @@ RUN echo "8ff08022be3a0ef693a9e3ea01010d1356b26cfdcbbe7fdd68d01b3c9700f9e2 ida-p
     mkdir -p /root/.local/share/applications && \
     ./ida-pro_91_x64linux.run --mode unattended && \
     rm ida-pro_91_x64linux.run && \
-    ./idapyswitch --auto-apply && \
+    ./idapyswitch --verbose --auto-apply --ignore-python-config && \
     python3 idakeygen.py && \
     rm idakeygen.py && \
     mv analysis.idc idc && \
@@ -23,7 +23,7 @@ ENV MODE=$MODE
 RUN apt update && \
     apt install --no-install-recommends --yes \
         python3 \
-        python3-dev && \
+        libpython3.12t64 && \
     if [ "$MODE" = "x11" ]; then \
         apt install --no-install-recommends --yes \
             libgl1 \
