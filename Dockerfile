@@ -13,9 +13,10 @@ RUN echo "8ff08022be3a0ef693a9e3ea01010d1356b26cfdcbbe7fdd68d01b3c9700f9e2 ida-p
     rm ida-pro_91_x64linux.run && \
     ./idapyswitch --verbose --auto-apply --ignore-python-config && \
     python3 idakeygen.py && \
+    python3 idareggen.py && \
     rm idakeygen.py && \
-    mv analysis.idc idc && \
-    mv ida.reg /root/.idapro
+    rm idareggen.py && \
+    mv analysis.idc idc
 
 FROM ubuntu:24.04
 ARG MODE=cli
